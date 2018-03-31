@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MyContacts;assembly=MyContacts"
+			 xmlns:effects="clr-namespace:MyContacts.Effects;assembly=MyContacts"
+             x:Class="MyContacts.AllContacts"
+             Title="Fenerbahce"
+             x:Name="PlayersPage"
+             Padding="5,0,5,5">
+
+    <ContentPage.Resources>
+      <ResourceDictionary>
+        <local:ImageResourceConverter x:Key="imageResourceCvt" />
+        <local:BirthdayConverter x:Key="birthdayCvt" />
+      </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="MenuItem1" Order="Primary" Text="Edit" Priority="0" Command="{Binding EditCommand}" />
+        <ToolbarItem Name="MenuItem2" Order="Primary" Text="Update" Priority="1" Command="{Binding UpdateCommand}"  />
+    </ContentPage.ToolbarItems>
+
+  <ListView 
+        x:Name="allContacts"
+		ItemsSource="{Binding AllContacts, Mode=TwoWay}"
+        IsGroupingEnabled="false"
+        GroupDisplayBinding="{Binding Key}"
+		IsPullToRefreshEnabled="false"
+		HasUnevenRows="true"
+		SeparatorVisibility="None" 
+      effects:Sorting.IsSortable="{Binding AllowOrdering}">
+<!--    <ListView.GroupHeaderTemplate>
+        <DataTemplate>
+            <ViewCell>
+            </ViewCell>
+        </DataTemplate>
+    </ListView.GroupHeaderTemplate>-->
+    <ListView.ItemTemplate>
+      <DataTemplate>
+          <ViewCell>
+			<ContentView>
+				<Grid  Margin="10" BackgroundColor="White">
+	                <Grid.ColumnDefinitions>
+	                    <ColumnDefinition Width="75" />
+                        <ColumnDefinition Width="50" />
+	                    <ColumnDefinition Width="*" />
+	                </Grid.ColumnDefinitions>
+
+	                <Image WidthRequest="50" Aspect="AspectFit" HorizontalOptions="Start"
+	                        Source="{Binding HeadshotUrl, Converter={StaticResource imageResourceCvt}}" />
+                            <Label  Grid.Column="1" Text="{Binding Jersey}" FontSize="30" VerticalTextAlignment="Center" />
+	                <StackLayout Grid.Column="2" VerticalOptions="Center">
+	                    <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" />
+	                    <Label Text="{Binding Position}" FontSize="Small" TextColor="Accent" />
+	                </StackLayout>
+					<Grid.Effects>
+						<effects:ViewShadowEffect Radius="5" DistanceX="5" DistanceY="5" Color="Gray">
+<!--							<effects:ViewShadowEffect.Color>
+								<OnPlatform x:TypeArguments="Color" iOS="Gray" Android="White" WinPhone="Red" />
+							</effects:ViewShadowEffect.Color>-->
+						</effects:ViewShadowEffect>
+					</Grid.Effects>
+				</Grid>
+				</ContentView>
+			</ViewCell>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+  </ListView>
+
+</ContentPage>

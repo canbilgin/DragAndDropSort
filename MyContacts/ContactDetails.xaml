@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MyContacts;assembly=MyContacts"
+             Title="Contact Details"
+			 x:Class="MyContacts.ContactDetails">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:GenderToIndexConverter x:Key="genderCvt" />
+            <local:ImageResourceConverter x:Key="imageResourceCvt" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+	<ScrollView>
+		<StackLayout Spacing="10">
+			<StackLayout.Padding>
+				<OnPlatform x:TypeArguments="Thickness" iOS="5,20,5,5" Android="5,0,5,5" WinPhone="5,0,5,5" />
+			</StackLayout.Padding>
+
+			<Image HeightRequest="200" Aspect="AspectFit"
+                   Source="{Binding HeadshotUrl, Converter={StaticResource imageResourceCvt}}" />
+
+			<Label Text="Name" FontAttributes="Bold" />
+			<Entry Text="{Binding Name, Mode=TwoWay}" />
+
+			<Label Text="Email" FontAttributes="Bold" />
+			<Entry Text="{Binding Email, Mode=TwoWay}" />
+
+			<Label Text="Gender" FontAttributes="Bold" />
+            <Picker x:Name="genderPicker" SelectedIndex="{Binding Gender, Mode=TwoWay, Converter={StaticResource genderCvt}}">
+                <Picker.Items>
+                    <x:String>Male</x:String>
+                    <x:String>Female</x:String>
+                </Picker.Items>
+            </Picker>
+
+			<Label Text="Birthday" FontAttributes="Bold" />
+			<DatePicker Date="{Binding Dob, Mode=TwoWay}" />
+
+			<Label Text="Favorite" FontAttributes="Bold" />
+			<Switch IsToggled="{Binding IsFavorite, Mode=TwoWay}" />
+
+		</StackLayout>
+	</ScrollView>
+</ContentPage>
